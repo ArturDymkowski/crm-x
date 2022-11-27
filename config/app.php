@@ -192,6 +192,9 @@ return [
 
         //User
         App\Modules\User\Providers\UserDeviceServiceProvider::class,
+
+        //Excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*

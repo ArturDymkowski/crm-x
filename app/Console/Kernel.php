@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         Commands\ModuleMakeMigration::class,
         Commands\ModuleMigrate::class,
         Commands\ModuleSeed::class,
+        Commands\WorkOrderImporter::class,
     ];
 
     /**

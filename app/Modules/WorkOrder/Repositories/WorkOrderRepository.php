@@ -6276,4 +6276,26 @@ AND lpwo.person_id = $personID and link_person_wo_id <> {$toLinkPersonWoID} ;";
 
         return $groupedServices;
     }
+
+    public function addDataFromHtml($data): array {
+        $workOrders = WorkOrder::all()->pluck('work_order_number');
+
+        foreach ($data as $k => $v) {
+            $type = 'ERROR';
+
+            if (!$workOrders->contains($v['work_order_number'])) {
+                WorkOrder::insert($v);
+                $type = 'SUCCESS';
+            }
+
+            DB::table('importer_log')->insert([
+                'type' => $type,
+                'entries_processed' => $v['work_order_number'],
+                'entries_created' => $type == 'SUCCESS' ? $v['work_order_number'] : null,
+            ]);
+            $data[$k]['status'] = $type == 'SUCCESS' ? 'Added' : 'Cancelled';
+        }
+
+        return $data;
+    }
 }
